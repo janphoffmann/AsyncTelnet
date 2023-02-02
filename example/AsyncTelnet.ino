@@ -1,16 +1,13 @@
 
-#include "AsyncTelnetSerial.h"
+#include "AsyncTelnet.h"
 
-AsyncTelnetSerial Test(&Serial);
+AsyncTelnet Test();
 
 void data_cb_f(const char *data, size_t len){
   Serial.write(data,len);
 }
 void conn_cb_f(void*, AsyncClient* c){
   Serial.print("Client connected");
-}
-void serial_data_cb_f(const char *response, size_t len){
-  Test.write(response,len);
 }
 
 void setup() {
@@ -23,11 +20,8 @@ void setup() {
 
   Test.onConnect(conn_cb_f);
   Test.onTelnetResponse(data_cb_f);
-  Test.onSerialResponse(serial_data_cb_f);
-  Test.begin();
-
+  Test.begin(); // AsyncTelnet::begin(bool checkConnection = true, bool mDNS = false);
 }
 
 void loop() {
-
 }
