@@ -15,7 +15,7 @@
 
 typedef std::function<void(void*, AsyncClient*)> ConnHandler;
 typedef std::function<void(AsyncClient*)> DisconnHandler;
-typedef std::function<void(const char *data, size_t len)> ResponseHandler;
+typedef std::function<void(std::string)> IncomingDataHandler;
 
 class AsyncTelnet {
   public:
@@ -35,7 +35,7 @@ class AsyncTelnet {
 
     void onConnect(ConnHandler callbackFunc);
     void onDisconnect(DisconnHandler callbackFunc);
-    void onTelnetResponse(ResponseHandler callbackFunc);
+    void onIncomingData(IncomingDataHandler callbackFunc);
 
     protected:
       AsyncServer server;
@@ -46,7 +46,8 @@ class AsyncTelnet {
 
       ConnHandler on_connect = NULL;
       DisconnHandler on_disconnect = NULL;
-      ResponseHandler on_data  = NULL;  
+      IncomingDataHandler on_incoming_data  = NULL;
+      std::string buffer;
 };
 
 #endif
