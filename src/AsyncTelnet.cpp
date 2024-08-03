@@ -24,7 +24,7 @@ bool AsyncTelnet::begin(bool checkConnection /* = true */, bool mDNS) {
     client = c;
     // client->setRxTimeout(10);
     ip = client->remoteIP();
-    if(on_connect != NULL) client->onConnect(on_connect, client); 
+    if(on_connect != NULL) on_connect(NULL, client);
     c->onDisconnect([=](void *, AsyncClient* c){ 
       if(on_disconnect != NULL) on_disconnect(c); 
       c->close(true);
