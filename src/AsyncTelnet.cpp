@@ -36,6 +36,12 @@ bool AsyncTelnet::begin(bool checkConnection /* = true */, bool mDNS) {
                 buffer.append((const char *) data, len);
 
                 if (buffer.find('\n') != std::string::npos) {
+                    if (buffer[buffer.length() - 1] == '\n') {
+                        buffer.pop_back();
+                    }
+                    if (buffer[buffer.length() - 1] == '\r') {
+                        buffer.pop_back();
+                    }
                     write("\r\n");
                     on_incoming_data(buffer);
                     buffer.clear();
