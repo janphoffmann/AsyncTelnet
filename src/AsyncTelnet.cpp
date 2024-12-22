@@ -33,18 +33,28 @@ bool AsyncTelnet::begin(bool checkConnection /* = true */, bool mDNS) {
         }, this);
         if (on_incoming_data != NULL) {
             c->onData([=](void *, AsyncClient *, void *data, size_t len) {
-                buffer.append((const char *) data, len);
+                for (size_t i = 0; i < len; i++) {
+                    char incoming = ((const char *) data)[i];
 
-                if (buffer.find('\n') != std::string::npos) {
-                    if (buffer[buffer.length() - 1] == '\n') {
-                        buffer.pop_back();
+                    if (incoming == '\b' || incoming == 0x7F) { // Handle backspace
+                        if (!buffer.empty()) {
+                            buffer.pop_back(); // Remove the last character from the buffer
+                            write("\b \b");    // Provide visual feedback (backspace + clear + backspace)
+                        }
+                    } else if (incoming == '\n') { // Handle newline
+                        if (!buffer.empty() && buffer.back() == '\r') {
+                            buffer.pop_back(); // Remove preceding \r if present
+                        }
+                        write("\r\n"); // Provide newline feedback
+                        if (!buffer.empty()) { // Only process non-empty input
+                            on_incoming_data(buffer); // Process the complete input
+                        }
+                        buffer.clear(); // Clear the buffer for the next input
+                    } else if (incoming == '\r') {
+                        // Ignore bare carriage returns, processed along with '\n' if present
+                    } else {
+                        buffer += incoming; // Append other characters to the buffer
                     }
-                    if (buffer[buffer.length() - 1] == '\r') {
-                        buffer.pop_back();
-                    }
-                    write("\r\n");
-                    on_incoming_data(buffer);
-                    buffer.clear();
                 }
             }, this);
         }
