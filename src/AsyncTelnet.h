@@ -5,20 +5,22 @@
 #ifdef ESP32
 #include <WiFi.h>
 #include <AsyncTCP.h>
+#include <ESPmDNS.h>
 #elif defined(ESP8266)
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
+#include <ESP8266mDNS.h>
+#include <string>
 #else
 #error Platform not supported
 #endif
-#include <ESPmDNS.h>
 
 typedef std::function<void(void*, AsyncClient*)> ConnHandler;
 typedef std::function<void(AsyncClient*)> DisconnHandler;
 typedef std::function<void(std::string)> IncomingDataHandler;
 
 class AsyncTelnet {
-  public:
+public:
     AsyncTelnet(uint16_t port = 23);
 
     bool begin(bool checkConnection = true, bool mDNS = false);
@@ -37,17 +39,17 @@ class AsyncTelnet {
     void onDisconnect(DisconnHandler callbackFunc);
     void onIncomingData(IncomingDataHandler callbackFunc);
 
-    protected:
-      AsyncServer server;
-      AsyncClient *client;
-      boolean isConnected = false;
-      IPAddress ip;
-      uint16_t server_port = 23;
+protected:
+    AsyncServer server;
+    AsyncClient *client;
+    boolean isConnected = false;
+    IPAddress ip;
+    uint16_t server_port = 23;
 
-      ConnHandler on_connect = NULL;
-      DisconnHandler on_disconnect = NULL;
-      IncomingDataHandler on_incoming_data  = NULL;
-      std::string buffer;
+    ConnHandler on_connect = NULL;
+    DisconnHandler on_disconnect = NULL;
+    IncomingDataHandler on_incoming_data  = NULL;
+    std::string buffer;
 };
 
 #endif
