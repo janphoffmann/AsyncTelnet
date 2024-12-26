@@ -1,0 +1,10 @@
+{
+  "name": "AsyncTelnet",
+  "version": "0.0.0+20241226005955",
+  "dependencies": [
+    {
+      "name": "AsyncTCP",
+      "version": "https://github.com/me-no-dev/AsyncTCP.git"
+    }
+  ]
+}
