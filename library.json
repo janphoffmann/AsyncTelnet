@@ -4,11 +4,11 @@
   "dependencies": [
     {
       "name": "ESPAsyncTCP",
-      "version": "https://github.com/me-no-dev/ESPAsyncTCP.git"
+      "version": "https://github.com/tomasz90/ESPAsyncTCP.git"
     },
     {
       "name": "AsyncTCP",
-      "version": "https://github.com/me-no-dev/AsyncTCP.git"
+      "version": "https://github.com/tomasz90/AsyncTCP.git"
     }
   ]
 }
