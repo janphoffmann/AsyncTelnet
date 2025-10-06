@@ -1,0 +1,14 @@
+{
+  "name": "AsyncTelnet",
+  "version": "0.0.0+20241226005955",
+  "dependencies": [
+    {
+      "name": "ESPAsyncTCP",
+      "version": "https://github.com/tomasz90/ESPAsyncTCP.git"
+    },
+    {
+      "name": "AsyncTCP",
+      "version": "https://github.com/tomasz90/AsyncTCP.git"
+    }
+  ]
+}
